@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 //    private ArrayList<Message> listInboxMessages;
 //    private ProgressDialog progressDialogInbox;
 //    private CustomHandler customHandler;
+
     private TextView myTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Read_SMS(View view){
+        ArrayList<String> smsInbox = new ArrayList<String>();
 Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"),new String[]{"_id", "address", "date", "body"},null,null,null  );
 cursor.moveToFirst();
 //        int i= new Integer(0);
@@ -44,12 +46,19 @@ cursor.moveToFirst();
             String address = cursor.getString(1);
             String body = cursor.getString(3);
 
-            System.out.println("Mobile number: "+address);
-            System.out.println("Text: "+body);
+//            System.out.println("Mobile number: "+address);
+//            System.out.println("Text: "+body);
 //            i++;
-            myTextView.setText(cursor.getString(1));
 //            myTextView.setText(cursor.getString(2));
+            myTextView.setText(cursor.getString(2));
+//            if (cursor.getCount() > 0) {
+
+                    String number = cursor.getString(cursor.getColumnIndexOrThrow("address"));
+                    String text = cursor.getString(cursor.getColumnIndexOrThrow("body"));
+                    smsInbox.add(number);
+//            }
         }
+        System.out.println(smsInbox);
 //myTextView.setText(cursor.getString(12));
     }
 
