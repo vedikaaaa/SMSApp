@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Message;
 import android.service.autofill.TextValueSanitizer;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -26,13 +27,13 @@ public class MainActivity extends AppCompatActivity {
 //    private ProgressDialog progressDialogInbox;
 //    private CustomHandler customHandler;
 
-    private TextView myTextView;
+    private ListView myTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myTextView = findViewById(R.id.textView);
+        myTextView =(ListView)findViewById(R.id.listView);
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_SMS}, PackageManager.PERMISSION_GRANTED);
     }
 
@@ -50,7 +51,7 @@ cursor.moveToFirst();
 //            System.out.println("Text: "+body);
 //            i++;
 //            myTextView.setText(cursor.getString(2));
-            myTextView.setText(cursor.getString(2));
+//            myTextView.setText(cursor.getString(2));
 //            if (cursor.getCount() > 0) {
 
                     String number = cursor.getString(cursor.getColumnIndexOrThrow("address"));
@@ -58,6 +59,12 @@ cursor.moveToFirst();
                     smsInbox.add(number);
 //            }
         }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_list_item_1,smsInbox
+                 );
+
+        myTextView.setAdapter(arrayAdapter);
         System.out.println(smsInbox);
 //myTextView.setText(cursor.getString(12));
     }
